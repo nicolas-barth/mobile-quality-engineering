@@ -1,0 +1,21 @@
+{
+  "description": "Baseline missing-evidence behavior per quality category, applied when a policy profile does not override it. BLOCK fails the release, WARNING allows CONDITIONAL_GO, NOT_EVALUATED excludes the category from gating/scoring without penalty, IGNORE treats the category as out of scope for the active profile.",
+  "categories": {
+    "FUNCTIONAL": "BLOCK",
+    "CRITICAL_PATH": "BLOCK",
+    "DEVICE_BEHAVIOR": "WARNING",
+    "ACCESSIBILITY": "WARNING",
+    "VISUAL": "WARNING",
+    "INSTALLATION": "BLOCK",
+    "UPGRADE": "WARNING",
+    "COMPATIBILITY": "WARNING",
+    "STABILITY": "WARNING",
+    "PERFORMANCE": "NOT_EVALUATED",
+    "MOBILE_WEB": "IGNORE",
+    "SECURITY": "BLOCK"
+  },
+  "manualEvidence": {
+    "talkback": "WARNING",
+    "exploratory": "WARNING"
+  }
+}

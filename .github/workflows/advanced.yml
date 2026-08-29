@@ -1,0 +1,144 @@
+name: Advanced
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: Advanced validation to run
+        type: choice
+        default: installation
+        options:
+          - installation
+          - upgrade
+          - monkey
+          - soak
+          - security
+          - performance
+          - mobile-web
+      android_api:
+        description: Android emulator API level
+        type: string
+        default: '33'
+      device_profile:
+        description: Android emulator device profile
+        type: string
+        default: pixel_6
+      soak_duration_minutes:
+        description: Soak test duration in minutes (only used when test_type is soak)
+        type: string
+        default: '5'
+      monkey_event_count:
+        description: Monkey event count (only used when test_type is monkey)
+        type: string
+        default: '500'
+
+permissions:
+  contents: read
+
+jobs:
+  advanced:
+    name: Advanced (${{ inputs.test_type }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install UiAutomator2 driver
+        run: npm run appium:install-driver
+
+      - name: Prepare Android application
+        run: bash scripts/prepare-android-app.sh
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run selected advanced validation on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android_api }}
+          target: google_apis
+          arch: x86_64
+          profile: ${{ inputs.device_profile }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            npm run appium:start > appium.log 2>&1 &
+            sleep 10
+            case "${{ inputs.test_type }}" in
+              installation) npm run test:installation ;;
+              upgrade) npm run test:upgrade ;;
+              monkey) npm run stability:monkey ;;
+              soak) npm run test:stability ;;
+              security) npm run security:scan && npx wdio run wdio.conf.ts --suite security ;;
+              performance) npm run performance:startup ;;
+              mobile-web) npx wdio run wdio.mobileweb.conf.ts ;;
+              *) echo "Unknown test_type: ${{ inputs.test_type }}" && exit 1 ;;
+            esac
+        env:
+          NODE_ENV: ci
+          ANDROID_DEVICE_NAME: Android Emulator
+          ANDROID_PLATFORM_VERSION: ${{ inputs.android_api }}
+          ANDROID_APP_PATH: ./app/android/mda-2.2.0-25.apk
+          ANDROID_APP_PACKAGE: com.saucelabs.mydemoapp.android
+          ANDROID_APP_ACTIVITY: com.saucelabs.mydemoapp.android.view.activities.SplashActivity
+          APPIUM_HOST: 127.0.0.1
+          APPIUM_PORT: '4723'
+          WDIO_LOG_LEVEL: info
+          NO_RESET: 'false'
+          FULL_RESET: 'false'
+          HEADLESS: 'true'
+          SOAK_DURATION_MINUTES: ${{ inputs.soak_duration_minutes }}
+          MONKEY_EVENT_COUNT: ${{ inputs.monkey_event_count }}
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run report:generate
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: advanced-${{ inputs.test_type }}-allure-report
+          path: reports/allure-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: advanced-${{ inputs.test_type }}-junit-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: advanced-${{ inputs.test_type }}-evidence
+          path: evidence/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: advanced-${{ inputs.test_type }}-reports
+          path: reports/
+          if-no-files-found: ignore
+          retention-days: 14

@@ -1,0 +1,41 @@
+{
+  "profile": "NIGHTLY",
+  "description": "Runs on the daily schedule. Requires the disciplines nightly itself produces (accessibility, visual, compatibility, stability repeat) but treats them as warnings rather than blockers when missing, since a nightly job failing to produce its own evidence is already visible as a CI job failure, not a silent gap.",
+  "requiredCategories": [
+    "FUNCTIONAL",
+    "CRITICAL_PATH",
+    "DEVICE_BEHAVIOR",
+    "ACCESSIBILITY",
+    "VISUAL",
+    "COMPATIBILITY",
+    "STABILITY",
+    "SECURITY"
+  ],
+  "enabledGates": [
+    "p0Failures",
+    "criticalPathPassRate",
+    "functionalPassRate",
+    "crashCount",
+    "anrCount",
+    "flakyRate",
+    "securityCritical",
+    "securityHighProduct",
+    "securityHighDependency",
+    "accessibilityCritical",
+    "visualRegressionFailures",
+    "compatibilityMandatoryProfiles"
+  ],
+  "missingEvidenceOverrides": {
+    "ACCESSIBILITY": "WARNING",
+    "VISUAL": "WARNING",
+    "INSTALLATION": "WARNING",
+    "UPGRADE": "WARNING",
+    "COMPATIBILITY": "WARNING",
+    "STABILITY": "WARNING",
+    "PERFORMANCE": "IGNORE"
+  },
+  "gateOverrides": {},
+  "mandatoryCompatibilityProfiles": ["android-min-supported", "android-latest"],
+  "minimumScore": 80,
+  "conditionalGoExitCode": 0
+}

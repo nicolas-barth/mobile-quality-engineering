@@ -1,0 +1,14 @@
+{
+  "description": "Release Readiness Score dimension weights. Weights must sum to exactly 100; validated by src/quality/policies/validatePolicy.ts and tested in quality-weights.test.ts. FUNCTIONAL absorbs DEVICE_BEHAVIOR results; INSTALLATION absorbs UPGRADE results. MOBILE_WEB is tracked in metrics/coverage but excluded from the score because it targets a third-party site, not this application's release surface.",
+  "weights": {
+    "FUNCTIONAL": 25,
+    "CRITICAL_PATH": 15,
+    "STABILITY": 15,
+    "COMPATIBILITY": 10,
+    "ACCESSIBILITY": 10,
+    "SECURITY": 10,
+    "VISUAL": 5,
+    "INSTALLATION": 5,
+    "PERFORMANCE": 5
+  }
+}

@@ -1,0 +1,258 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      android_api:
+        description: Android emulator API level for the functional/device/accessibility/visual job
+        type: string
+        default: '33'
+      device_profile:
+        description: Android emulator device profile
+        type: string
+        default: pixel_6
+
+concurrency:
+  group: nightly-${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  functional-device-accessibility-visual:
+    name: Functional, device, accessibility and visual regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install UiAutomator2 driver
+        run: npm run appium:install-driver
+
+      - name: Prepare Android application
+        run: bash scripts/prepare-android-app.sh
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run nightly suites on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android_api || '33' }}
+          target: google_apis
+          arch: x86_64
+          profile: ${{ inputs.device_profile || 'pixel_6' }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            npm run appium:start > appium.log 2>&1 &
+            sleep 10
+            for suite in functional device accessibility visual; do
+              npx wdio run wdio.conf.ts --suite "$suite"
+            done
+        env:
+          NODE_ENV: ci
+          ANDROID_DEVICE_NAME: Android Emulator
+          ANDROID_PLATFORM_VERSION: ${{ inputs.android_api || '33' }}
+          ANDROID_APP_PATH: ./app/android/mda-2.2.0-25.apk
+          ANDROID_APP_PACKAGE: com.saucelabs.mydemoapp.android
+          ANDROID_APP_ACTIVITY: com.saucelabs.mydemoapp.android.view.activities.SplashActivity
+          APPIUM_HOST: 127.0.0.1
+          APPIUM_PORT: '4723'
+          WDIO_LOG_LEVEL: info
+          NO_RESET: 'false'
+          FULL_RESET: 'false'
+          HEADLESS: 'true'
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run report:generate
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-allure-report
+          path: reports/allure-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-junit-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-evidence
+          path: evidence/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  compatibility-subset:
+    name: Compatibility subset (${{ matrix.profile }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - profile: android-min-supported
+            api_level: '26'
+          - profile: android-latest
+            api_level: '35'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install UiAutomator2 driver
+        run: npm run appium:install-driver
+
+      - name: Prepare Android application
+        run: bash scripts/prepare-android-app.sh
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run compatibility subset on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api_level }}
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            npm run appium:start > appium.log 2>&1 &
+            sleep 10
+            npx wdio run wdio.compatibility.conf.ts
+        env:
+          NODE_ENV: ci
+          ANDROID_DEVICE_NAME: Android Emulator
+          ANDROID_PLATFORM_VERSION: ${{ matrix.api_level }}
+          ANDROID_APP_PATH: ./app/android/mda-2.2.0-25.apk
+          ANDROID_APP_PACKAGE: com.saucelabs.mydemoapp.android
+          ANDROID_APP_ACTIVITY: com.saucelabs.mydemoapp.android.view.activities.SplashActivity
+          APPIUM_HOST: 127.0.0.1
+          APPIUM_PORT: '4723'
+          WDIO_LOG_LEVEL: info
+          NO_RESET: 'false'
+          FULL_RESET: 'false'
+          HEADLESS: 'true'
+          COMPATIBILITY_PROFILE: ${{ matrix.profile }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-compatibility-${{ matrix.profile }}-junit
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  stability-repeat:
+    name: Stability repeat
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install UiAutomator2 driver
+        run: npm run appium:install-driver
+
+      - name: Prepare Android application
+        run: bash scripts/prepare-android-app.sh
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Repeat smoke suite on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: '33'
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            npm run appium:start > appium.log 2>&1 &
+            sleep 10
+            SMOKE_REPEAT_COUNT=5 npm run stability:repeat
+        env:
+          NODE_ENV: ci
+          ANDROID_DEVICE_NAME: Android Emulator
+          ANDROID_PLATFORM_VERSION: '33'
+          ANDROID_APP_PATH: ./app/android/mda-2.2.0-25.apk
+          ANDROID_APP_PACKAGE: com.saucelabs.mydemoapp.android
+          ANDROID_APP_ACTIVITY: com.saucelabs.mydemoapp.android.view.activities.SplashActivity
+          APPIUM_HOST: 127.0.0.1
+          APPIUM_PORT: '4723'
+          WDIO_LOG_LEVEL: info
+          NO_RESET: 'false'
+          FULL_RESET: 'false'
+          HEADLESS: 'true'
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-stability-summary
+          path: reports/stability/
+          if-no-files-found: ignore
+          retention-days: 14

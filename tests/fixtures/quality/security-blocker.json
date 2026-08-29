@@ -1,0 +1,314 @@
+{
+  "execution": {
+    "executionId": "fixture-security-blocker",
+    "startedAt": "2026-08-05T09:00:00.000Z",
+    "completedAt": "2026-08-05T09:20:00.000Z",
+    "branch": "main",
+    "commitSha": "eeeeeee",
+    "appVersion": "2.3.3",
+    "platform": "android",
+    "environment": "ci",
+    "trigger": "workflow_dispatch",
+    "dataMode": "SIMULATED",
+    "results": [
+      {
+        "id": "s-1",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:01:00.000Z",
+        "source": "JUNIT",
+        "category": "FUNCTIONAL",
+        "suite": "tests/smoke/applicationLaunch.spec.ts",
+        "test": "launches and shows the catalog",
+        "status": "PASSED",
+        "priority": "P0",
+        "criticalPath": true,
+        "durationMs": 820,
+        "traceId": "MOB-SMK-001"
+      },
+      {
+        "id": "s-2",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:02:00.000Z",
+        "source": "JUNIT",
+        "category": "FUNCTIONAL",
+        "suite": "tests/functional/cart/cartBasics.spec.ts",
+        "test": "adds a product to the cart",
+        "status": "PASSED",
+        "priority": "P1",
+        "criticalPath": true,
+        "durationMs": 640,
+        "traceId": "MOB-CART-001"
+      },
+      {
+        "id": "s-3",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:03:00.000Z",
+        "source": "JUNIT",
+        "category": "FUNCTIONAL",
+        "suite": "tests/functional/checkout/checkoutOverviewAndCompletion.spec.ts",
+        "test": "completes the purchase",
+        "status": "PASSED",
+        "priority": "P0",
+        "criticalPath": true,
+        "durationMs": 1120,
+        "traceId": "MOB-CHK-003"
+      },
+      {
+        "id": "s-4",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:04:00.000Z",
+        "source": "JUNIT",
+        "category": "DEVICE_BEHAVIOR",
+        "suite": "tests/device/lifecycle.spec.ts",
+        "test": "restores state after backgrounding",
+        "status": "PASSED",
+        "priority": "P1",
+        "durationMs": 540,
+        "traceId": "MOB-DEV-001"
+      },
+      {
+        "id": "s-5",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:05:00.000Z",
+        "source": "JUNIT",
+        "category": "ACCESSIBILITY",
+        "suite": "tests/accessibility/catalogAccessibility.spec.ts",
+        "test": "has no missing accessible labels",
+        "status": "PASSED",
+        "priority": "P2",
+        "durationMs": 410,
+        "traceId": "MOB-ACC-001"
+      },
+      {
+        "id": "s-6",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:06:00.000Z",
+        "source": "JUNIT",
+        "category": "VISUAL",
+        "suite": "tests/visual/catalogVisual.spec.ts",
+        "test": "matches the catalog baseline",
+        "status": "PASSED",
+        "priority": "P2",
+        "durationMs": 900,
+        "traceId": "MOB-VIS-001"
+      },
+      {
+        "id": "s-7",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:07:00.000Z",
+        "source": "JUNIT",
+        "category": "INSTALLATION",
+        "suite": "tests/installation/cleanInstall.spec.ts",
+        "test": "installs cleanly",
+        "status": "PASSED",
+        "priority": "P0",
+        "durationMs": 3200,
+        "traceId": "MOB-INS-001"
+      },
+      {
+        "id": "s-8",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:08:00.000Z",
+        "source": "JUNIT",
+        "category": "UPGRADE",
+        "suite": "tests/upgrade/applicationUpgrade.spec.ts",
+        "test": "preserves data across an upgrade",
+        "status": "PASSED",
+        "priority": "P2",
+        "durationMs": 4100,
+        "traceId": "MOB-UPG-001"
+      },
+      {
+        "id": "s-9",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:09:00.000Z",
+        "source": "JUNIT",
+        "category": "COMPATIBILITY",
+        "suite": "tests/compatibility/criticalPathAcrossProfiles.spec.ts",
+        "test": "completes the critical path",
+        "status": "PASSED",
+        "priority": "P1",
+        "durationMs": 1300,
+        "traceId": "MOB-COMP-001",
+        "environment": { "compatibilityProfile": "android-min-supported" }
+      },
+      {
+        "id": "s-10",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:10:00.000Z",
+        "source": "JUNIT",
+        "category": "COMPATIBILITY",
+        "suite": "tests/compatibility/criticalPathAcrossProfiles.spec.ts",
+        "test": "completes the critical path",
+        "status": "PASSED",
+        "priority": "P1",
+        "durationMs": 1250,
+        "traceId": "MOB-COMP-001",
+        "environment": { "compatibilityProfile": "android-latest" }
+      },
+      {
+        "id": "s-11",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:11:00.000Z",
+        "source": "STABILITY",
+        "category": "STABILITY",
+        "suite": "stability-repeat",
+        "status": "PASSED"
+      },
+      {
+        "id": "s-12",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:12:00.000Z",
+        "source": "STABILITY",
+        "category": "STABILITY",
+        "suite": "stability-monkey",
+        "status": "PASSED"
+      },
+      {
+        "id": "s-13",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:13:00.000Z",
+        "source": "SECURITY",
+        "category": "SECURITY",
+        "suite": "security-scan",
+        "status": "FAILED",
+        "failureMessage": "1 security finding(s) recorded, worst status FAILED"
+      },
+      {
+        "id": "s-14",
+        "executionId": "fixture-security-blocker",
+        "timestamp": "2026-08-05T09:14:00.000Z",
+        "source": "SECURITY",
+        "category": "SECURITY",
+        "suite": "security-scan",
+        "test": "SEC-SECRET-9",
+        "status": "FAILED",
+        "failureMessage": "Hardcoded private key block found in src/services/paymentGateway.ts",
+        "traceId": "SEC-SECRET-9"
+      }
+    ]
+  },
+  "raw": {
+    "findings": [
+      {
+        "id": "SEC-SECRET-9",
+        "category": "security",
+        "severity": "CRITICAL",
+        "title": "Hardcoded private key block found in src/services/paymentGateway.ts",
+        "description": "A PEM-format private key block was found committed to the source tree.",
+        "evidence": "src/services/paymentGateway.ts",
+        "status": "open"
+      }
+    ],
+    "stabilitySummary": {
+      "executions": 10,
+      "passed": 10,
+      "failed": 0,
+      "firstRunPassRate": 1,
+      "finalPassRate": 1,
+      "flakyRate": 0,
+      "failuresByCategory": {}
+    },
+    "monkeyResult": {
+      "packageName": "com.saucelabs.mydemoapp.android",
+      "seed": 42,
+      "eventCount": 500,
+      "exitCode": 0,
+      "crashDetected": false,
+      "anrDetected": false,
+      "output": "fixture"
+    },
+    "traceabilityEntries": [
+      {
+        "id": "MOB-SMK-001",
+        "specFile": "tests/smoke/applicationLaunch.spec.ts",
+        "feature": "Application launch",
+        "risk": "P0",
+        "suites": ["smoke", "critical"],
+        "priority": "P0",
+        "criticalPath": true,
+        "category": "FUNCTIONAL"
+      },
+      {
+        "id": "MOB-CART-001",
+        "specFile": "tests/functional/cart/cartBasics.spec.ts",
+        "feature": "Cart",
+        "risk": "P1",
+        "suites": ["functional", "critical"],
+        "priority": "P1",
+        "criticalPath": true,
+        "category": "FUNCTIONAL"
+      },
+      {
+        "id": "MOB-CHK-003",
+        "specFile": "tests/functional/checkout/checkoutOverviewAndCompletion.spec.ts",
+        "feature": "Checkout",
+        "risk": "P0",
+        "suites": ["functional", "critical", "checkout"],
+        "priority": "P0",
+        "criticalPath": true,
+        "category": "FUNCTIONAL"
+      },
+      {
+        "id": "MOB-DEV-001",
+        "specFile": "tests/device/lifecycle.spec.ts",
+        "feature": "Device lifecycle",
+        "risk": "P1",
+        "suites": ["device", "regression"],
+        "priority": "P1",
+        "criticalPath": false,
+        "category": "DEVICE_BEHAVIOR"
+      },
+      {
+        "id": "MOB-ACC-001",
+        "specFile": "tests/accessibility/catalogAccessibility.spec.ts",
+        "feature": "Accessibility",
+        "risk": "P2",
+        "suites": ["accessibility", "advanced"],
+        "priority": "P2",
+        "criticalPath": false,
+        "category": "ACCESSIBILITY"
+      },
+      {
+        "id": "MOB-VIS-001",
+        "specFile": "tests/visual/catalogVisual.spec.ts",
+        "feature": "Visual regression",
+        "risk": "P2",
+        "suites": ["visual", "advanced"],
+        "priority": "P2",
+        "criticalPath": false,
+        "category": "VISUAL"
+      },
+      {
+        "id": "MOB-INS-001",
+        "specFile": "tests/installation/cleanInstall.spec.ts",
+        "feature": "Installation",
+        "risk": "P0",
+        "suites": ["installation", "advanced"],
+        "priority": "P0",
+        "criticalPath": false,
+        "category": "INSTALLATION"
+      },
+      {
+        "id": "MOB-UPG-001",
+        "specFile": "tests/upgrade/applicationUpgrade.spec.ts",
+        "feature": "Upgrade",
+        "risk": "P2",
+        "suites": ["upgrade", "advanced"],
+        "priority": "P2",
+        "criticalPath": false,
+        "category": "UPGRADE"
+      },
+      {
+        "id": "MOB-COMP-001",
+        "specFile": "tests/compatibility/criticalPathAcrossProfiles.spec.ts",
+        "feature": "Compatibility",
+        "risk": "P1",
+        "suites": ["compatibility"],
+        "priority": "P1",
+        "criticalPath": false,
+        "category": "COMPATIBILITY"
+      }
+    ]
+  }
+}

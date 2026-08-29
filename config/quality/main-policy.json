@@ -1,0 +1,26 @@
+{
+  "profile": "MAIN",
+  "description": "Runs after a merge to main. Adds functional depth and device-behavior evidence over the PR profile; still does not require the nightly-only disciplines (accessibility, visual, compatibility matrix, stability repeat) since main does not run them on every push.",
+  "requiredCategories": ["FUNCTIONAL", "CRITICAL_PATH", "DEVICE_BEHAVIOR", "SECURITY"],
+  "enabledGates": [
+    "p0Failures",
+    "criticalPathPassRate",
+    "functionalPassRate",
+    "securityCritical",
+    "securityHighProduct",
+    "securityHighDependency"
+  ],
+  "missingEvidenceOverrides": {
+    "ACCESSIBILITY": "WARNING",
+    "VISUAL": "WARNING",
+    "INSTALLATION": "WARNING",
+    "UPGRADE": "WARNING",
+    "COMPATIBILITY": "WARNING",
+    "STABILITY": "WARNING",
+    "PERFORMANCE": "IGNORE"
+  },
+  "gateOverrides": {},
+  "mandatoryCompatibilityProfiles": [],
+  "minimumScore": 75,
+  "conditionalGoExitCode": 0
+}

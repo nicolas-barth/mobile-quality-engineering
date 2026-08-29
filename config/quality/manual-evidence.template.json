@@ -1,0 +1,30 @@
+{
+  "description": "Template for manual (non-automated) evidence. Copy to reports/manual/manual-evidence.json (git-ignored, same as other generated reports/) and fill in real assessment results before a RELEASE run. Any charter left out of this file is treated as NOT_EXECUTED, never as a passing result.",
+  "generatedAt": "2000-01-01T00:00:00.000Z",
+  "assessments": [
+    {
+      "id": "MANUAL-TALKBACK",
+      "title": "TalkBack manual accessibility checklist",
+      "reference": "manual-tests/accessibility/talkback-checklist.md",
+      "status": "NOT_EXECUTED",
+      "assessor": "",
+      "notes": ""
+    },
+    {
+      "id": "MANUAL-EXPLORATORY-CHECKOUT",
+      "title": "Checkout interruption exploratory charter",
+      "reference": "manual-tests/exploratory/checkout-interruption.md",
+      "status": "NOT_EXECUTED",
+      "assessor": "",
+      "notes": ""
+    },
+    {
+      "id": "MANUAL-EXPLORATORY-SCANNER",
+      "title": "Scanner/camera exploratory charter",
+      "reference": "manual-tests/exploratory/scanner-camera.md",
+      "status": "NOT_EXECUTED",
+      "assessor": "",
+      "notes": ""
+    }
+  ]
+}

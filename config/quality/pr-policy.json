@@ -1,0 +1,27 @@
+{
+  "profile": "PR",
+  "description": "Fast feedback on a pull request. Only evidence realistically produced by the PR job (static validation, smoke/critical, lightweight security) is required; nightly-only disciplines are out of scope so a PR never fails for evidence it was never expected to produce.",
+  "requiredCategories": ["FUNCTIONAL", "CRITICAL_PATH", "SECURITY"],
+  "enabledGates": [
+    "p0Failures",
+    "criticalPathPassRate",
+    "functionalPassRate",
+    "securityCritical",
+    "securityHighProduct",
+    "securityHighDependency"
+  ],
+  "missingEvidenceOverrides": {
+    "DEVICE_BEHAVIOR": "IGNORE",
+    "ACCESSIBILITY": "IGNORE",
+    "VISUAL": "IGNORE",
+    "INSTALLATION": "IGNORE",
+    "UPGRADE": "IGNORE",
+    "COMPATIBILITY": "IGNORE",
+    "STABILITY": "IGNORE",
+    "PERFORMANCE": "IGNORE"
+  },
+  "gateOverrides": {},
+  "mandatoryCompatibilityProfiles": [],
+  "minimumScore": 70,
+  "conditionalGoExitCode": 0
+}

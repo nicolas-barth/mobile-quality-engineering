@@ -1,0 +1,39 @@
+{
+  "profile": "RELEASE",
+  "description": "The strictest profile, run before a production release candidate is approved. Every quality category this project covers is required; the baseline missing-evidence-policy.json behavior applies with no relaxation, and the visual-regression gate is escalated from warning to blocking.",
+  "requiredCategories": [
+    "FUNCTIONAL",
+    "CRITICAL_PATH",
+    "DEVICE_BEHAVIOR",
+    "ACCESSIBILITY",
+    "VISUAL",
+    "INSTALLATION",
+    "UPGRADE",
+    "COMPATIBILITY",
+    "STABILITY",
+    "SECURITY"
+  ],
+  "enabledGates": [
+    "p0Failures",
+    "criticalPathPassRate",
+    "functionalPassRate",
+    "crashCount",
+    "anrCount",
+    "flakyRate",
+    "securityCritical",
+    "securityHighProduct",
+    "securityHighDependency",
+    "accessibilityCritical",
+    "visualRegressionFailures",
+    "installationCriticalPassRate",
+    "compatibilityMandatoryProfiles",
+    "performanceRegression"
+  ],
+  "missingEvidenceOverrides": {},
+  "gateOverrides": {
+    "visualRegressionFailures": { "blocking": true }
+  },
+  "mandatoryCompatibilityProfiles": ["android-min-supported", "android-latest"],
+  "minimumScore": 85,
+  "conditionalGoExitCode": 0
+}

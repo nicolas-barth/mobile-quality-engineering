@@ -1,0 +1,19 @@
+{
+  "execution": {
+    "executionId": "fixture-empty-evidence",
+    "startedAt": "2026-08-07T09:00:00.000Z",
+    "completedAt": "2026-08-07T09:00:05.000Z",
+    "branch": "main",
+    "commitSha": "0000000",
+    "appVersion": "0.0.0",
+    "platform": "android",
+    "environment": "ci",
+    "trigger": "workflow_dispatch",
+    "dataMode": "SIMULATED",
+    "results": []
+  },
+  "raw": {
+    "findings": [],
+    "traceabilityEntries": []
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "p0Failures": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: no P0-priority test may fail in the evidence considered for the active profile."
+  },
+  "criticalPathPassRate": {
+    "min": 1,
+    "blocking": true,
+    "description": "Project policy: every executed critical-path test (application launch, catalog/product/cart, checkout) must pass."
+  },
+  "functionalPassRate": {
+    "min": 0.95,
+    "blocking": true,
+    "description": "Project policy threshold, not an industry standard: the functional suite must pass at 95% or higher."
+  },
+  "crashCount": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: any Monkey- or soak-detected crash blocks release when stability evidence exists."
+  },
+  "anrCount": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: any detected Application Not Responding condition blocks release when stability evidence exists."
+  },
+  "flakyRate": {
+    "max": 0.02,
+    "blocking": false,
+    "description": "Project policy: a stability-repeat flaky rate above 2% is a warning, not a block, until it recurs across releases."
+  },
+  "securityCritical": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: any CRITICAL security finding (exploitable secret, manifest exposure, dependency) blocks release."
+  },
+  "securityHighDependency": {
+    "max": 3,
+    "blocking": false,
+    "description": "Project policy: up to 3 HIGH-severity third-party dependency vulnerabilities are a warning, since they are typically dev-time or transitive and not directly exploitable in the shipped app."
+  },
+  "securityHighProduct": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: any HIGH-severity finding against the product itself (source-tree secret, manifest/component exposure) blocks release; it is not covered by the relaxed dependency limit above."
+  },
+  "accessibilityCritical": {
+    "max": 0,
+    "blocking": true,
+    "description": "Project policy: any confirmed accessibility defect (status 'confirmed', not a testability-issue) blocks release when accessibility evidence exists."
+  },
+  "visualRegressionFailures": {
+    "max": 0,
+    "blocking": false,
+    "description": "Project policy: unapproved visual regressions are a warning by default; the release profile escalates this gate to blocking."
+  },
+  "installationCriticalPassRate": {
+    "min": 1,
+    "blocking": true,
+    "description": "Project policy: clean install/uninstall must fully pass when installation evidence exists."
+  },
+  "compatibilityMandatoryProfiles": {
+    "min": 1,
+    "blocking": false,
+    "description": "Project policy: the mandatory compatibility profiles configured for the active policy profile must have executed and passed their critical path."
+  },
+  "performanceRegression": {
+    "max": 0.2,
+    "blocking": false,
+    "description": "Project policy: functional timings must not regress more than 20% against a trusted baseline; NOT_EVALUATED when no baseline is configured, per the project's rule against gating on arbitrary absolute values."
+  }
+}
