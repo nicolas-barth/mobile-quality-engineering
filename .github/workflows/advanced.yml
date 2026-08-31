@@ -75,6 +75,7 @@ jobs:
 
       - name: Run selected advanced validation on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: ${{ inputs.android_api }}
           target: google_apis

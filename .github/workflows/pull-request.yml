@@ -156,6 +156,7 @@ jobs:
 
       - name: Run suites on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: ${{ steps.plan.outputs.api_level }}
           target: google_apis

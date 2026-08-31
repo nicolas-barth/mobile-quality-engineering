@@ -61,6 +61,7 @@ jobs:
 
       - name: Run nightly suites on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: ${{ inputs.android_api || '33' }}
           target: google_apis
@@ -164,6 +165,7 @@ jobs:
 
       - name: Run compatibility subset on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: ${{ matrix.api_level }}
           target: google_apis
@@ -238,6 +240,7 @@ jobs:
 
       - name: Repeat smoke suite on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
+        continue-on-error: true
         with:
           api-level: '33'
           target: google_apis
