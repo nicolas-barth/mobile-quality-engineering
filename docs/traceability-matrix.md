@@ -1,9 +1,7 @@
 # Test Case Traceability Matrix
 
 One identifier per spec file (not per individual assertion), since a
-finer grain would add identifiers without adding useful traceability. See
-[functional-coverage.md](functional-coverage.md) for the feature/risk
-matrix this complements.
+finer grain would add identifiers without adding useful traceability.
 
 | ID           | Spec file                                                       | Feature                | Risk | Suite(s)                       | Priority |
 | ------------ | --------------------------------------------------------------- | ---------------------- | ---- | ------------------------------ | -------- |
