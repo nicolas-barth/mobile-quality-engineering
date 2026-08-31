@@ -4,7 +4,7 @@ import { byResourceId, byResourceIdAndText } from '../screens/shared/androidSele
 
 export function cartItemRow(productName: string) {
   const titleElement = () => $(byResourceIdAndText('titleTV', productName));
-  const container = () => titleElement().$('..').$('..');
+  const container = () => titleElement().$('../..');
   const priceElement = () => container().$(byResourceId('priceTV'));
   const quantityElement = () => container().$(byResourceId('noTV'));
   const increaseButton = () => container().$(byResourceId('plusIV'));

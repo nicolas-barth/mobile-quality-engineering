@@ -4,7 +4,7 @@ import { byDescriptionAndText } from '../screens/shared/androidSelector';
 
 export function productCard(productName: string) {
   const nameElement = () => $(byDescriptionAndText('Product Title', productName));
-  const container = () => nameElement().$('..').$('..');
+  const container = () => nameElement().$('../..');
   const priceElement = () => container().$('~Product Price');
   const imageElement = () => container().$('~Product Image');
 
