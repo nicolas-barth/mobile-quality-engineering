@@ -94,7 +94,7 @@ jobs:
         if: always()
         run: npm run report:generate
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: nightly-allure-report
@@ -102,7 +102,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: nightly-junit-results
@@ -110,7 +110,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: nightly-evidence
@@ -193,7 +193,7 @@ jobs:
           HEADLESS: 'true'
           COMPATIBILITY_PROFILE: ${{ matrix.profile }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: nightly-compatibility-${{ matrix.profile }}-junit
@@ -267,7 +267,7 @@ jobs:
           FULL_RESET: 'false'
           HEADLESS: 'true'
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: nightly-stability-summary

@@ -117,7 +117,7 @@ jobs:
         if: always()
         run: npm run report:generate
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: advanced-${{ inputs.test_type }}-allure-report
@@ -125,7 +125,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: advanced-${{ inputs.test_type }}-junit-results
@@ -133,7 +133,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: advanced-${{ inputs.test_type }}-evidence
@@ -141,7 +141,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: advanced-${{ inputs.test_type }}-reports
